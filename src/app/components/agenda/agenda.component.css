@@ -1,0 +1,31 @@
+.calendario {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.hora {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.disponivel {
+  background-color: #d4edda;
+  cursor: pointer;
+}
+
+.indisponivel {
+  background-color: #f8d7da;
+  color: #888;
+  cursor: not-allowed;
+}

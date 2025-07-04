@@ -1,1 +1,63 @@
-<p>register-page works!</p>
+<div class="login-page">
+  <div class="background-shape"></div>
+  <div class="login-box">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="input-group">
+        <span class="icon">✉️</span>
+        <input type="email" placeholder="E-mail" formControlName="email" />
+      </div>
+      <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <small *ngIf="registerForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</small>
+        <small *ngIf="registerForm.get('email')?.errors?.['email']">Formato de e-mail inválido.</small>
+      </div>
+
+      <!-- Senha -->
+      <div class="input-group">
+        <span class="icon">🔒</span>
+        <input type="password" placeholder="Senha" formControlName="senha" />
+      </div>
+      <div class="error" *ngIf="registerForm.get('senha')?.invalid && registerForm.get('senha')?.touched">
+        <small *ngIf="registerForm.get('senha')?.errors?.['required']">A senha é obrigatória.</small>
+        <small *ngIf="registerForm.get('senha')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres.</small>
+        <small *ngIf="registerForm.get('senha')?.errors?.['pattern']">
+          A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial.
+        </small>
+      </div>
+
+      <!-- CPF -->
+      <div class="input-group">
+        <span class="icon">🆔</span>
+        <input type="text" placeholder="CPF" formControlName="cpf" />
+      </div>
+      <div class="error" *ngIf="registerForm.get('cpf')?.invalid && registerForm.get('cpf')?.touched">
+        <small>O CPF é obrigatório.</small>
+      </div>
+
+      <!-- Nome Completo -->
+      <div class="input-group">
+        <span class="icon">👤</span>
+        <input type="text" placeholder="Nome Completo" formControlName="nomeCompleto" />
+      </div>
+      <div class="error" *ngIf="registerForm.get('nomeCompleto')?.invalid && registerForm.get('nomeCompleto')?.touched">
+        <small>O nome completo é obrigatório.</small>
+      </div>
+
+      <!-- Tipo de Usuário -->
+      <div class="input-group">
+        <span class="icon">👥</span>
+        <select formControlName="tipoUsuario">
+          <option value="">Selecione o tipo de usuário</option>
+          <option value="Profissional">Profissional</option>
+          <option value="Cliente">Cliente</option>
+        </select>
+      </div>
+      <div class="error" *ngIf="registerForm.get('tipoUsuario')?.invalid && registerForm.get('tipoUsuario')?.touched">
+        <small>O tipo de usuário é obrigatório.</small>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid">Registre-se</button>
+
+    </form>
+  </div>
+</div>
