@@ -3,7 +3,8 @@ export interface UserRegister {
     password: string,
     role: string,
     cpf: string,
-    nomeCompleto: string
+    nomeCompleto: string,
+    especialidade?: string
 }
 
 export interface UserLogin {

@@ -26,7 +26,8 @@ export class RegisterPageComponent {
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)]],
         cpf: ['', [Validators.required]],
         nomeCompleto:['',[Validators.required]],
-        tipoUsuario: ['', Validators.required]
+        tipoUsuario: ['', Validators.required],
+        especialidade: [''],
       });
 
       this.user = {
@@ -34,7 +35,8 @@ export class RegisterPageComponent {
         password: '',
         role: '',
         cpf: '',
-        nomeCompleto: ''
+        nomeCompleto: '',
+        especialidade: ''
       }
     }
   
@@ -45,6 +47,13 @@ export class RegisterPageComponent {
         this.user.cpf = this.registerForm.value.cpf;
         this.user.nomeCompleto = this.registerForm.value.nomeCompleto;
         this.user.role = this.registerForm.value.tipoUsuario;
+        
+       if(this.registerForm.value.tipoUsuario == 'Profissional'){
+        console.log('Entrou no IF!');
+        this.user.especialidade = this.registerForm.value.especialidade;
+       }else{
+        this.user.especialidade = 'Cliente';
+       }
 
         this.authService.register(this.user).subscribe({
           next: (res) =>  {

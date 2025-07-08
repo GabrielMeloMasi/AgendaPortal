@@ -55,6 +55,11 @@
       <div class="error" *ngIf="registerForm.get('tipoUsuario')?.invalid && registerForm.get('tipoUsuario')?.touched">
         <small>O tipo de usuário é obrigatório.</small>
       </div>
+      
+       <div class="input-group" *ngIf="registerForm.value.tipoUsuario == 'Profissional'">
+        <span class="icon">🛠️</span>
+        <input type="text" placeholder="Especialidade" formControlName="especialidade" />
+      </div>
 
       <button type="submit" [disabled]="registerForm.invalid">Registre-se</button>
 
