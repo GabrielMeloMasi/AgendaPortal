@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Horario } from '../models/agenda.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Agendamento } from '../models/agendamento.model';
+import { environment } from 'src/environments/environment.development';
+
 
 @Injectable({ providedIn: 'root' })
 export class AgendaService {
-  diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
-  horas = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+  
+  private readonly API_URL = environment.apiUrl + '/agendamento/';
 
-  getAgendaSemana(): Horario[][] {
-    return this.horas.map(hora =>
-      this.diasSemana.map(dia => ({
-        hora,
-        dia,
-        disponivel: Math.random() > 0.4 
-      }))
-    );
-  }
+    constructor(private http: HttpClient) {}
+
+    getAgendamentos(clientId:string): Observable<Agendamento[]>{
+      let urlApi = this.API_URL + clientId;
+      return this.http.get<Agendamento[]>(urlApi);
+    }
+
 }

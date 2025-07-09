@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserLogin } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login-page',
@@ -31,11 +32,29 @@ export class LoginPageComponent {
       this.loginUser.password = this.loginForm.value.senha;
       
         this.authService.login(this.loginUser).subscribe({
-          next: (res) =>  {
-            console.log('Login realizado com sucesso!', res);
-            localStorage.setItem('token', JSON.stringify(res));
+          next: (res: any) =>  {
+            
+            const token = res.token;
+            localStorage.setItem('token', token);
+
+            const decoded: any = jwtDecode(token);
+
+            const userData = {
+              userId: decoded.userId || decoded["userId"],
+              userName: decoded.userName || decoded["userName"],
+              userRole: decoded.userRole || decoded["userRole"],
+              email: decoded.email || decoded["email"],
+              nomeCompleto: decoded.nomeCompleto || decoded["nomeCompleto"],
+              tipoUsuario: decoded.tipoUsuario || decoded["tipoUsuario"]
+            }
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            console.log('Usuário logado:', userData);
             this.router.navigate(['/home']);
           },
+
+
+
           error: (err) => {
             console.error('Erro ao fazer login: ', err);
           }

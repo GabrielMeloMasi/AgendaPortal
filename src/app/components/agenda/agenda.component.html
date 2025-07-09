@@ -1,21 +1,43 @@
-<div class="calendario">
-  <table>
-    <thead>
-      <tr>
-        <th>Hora</th>
-        <th *ngFor="let dia of diasSemana">{{ dia }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let linha of agenda; let i = index">
-        <td class="hora">{{ horarios[i] }}</td>
-        <td *ngFor="let h of linha"
-            [class.disponivel]="h.disponivel"
-            [class.indisponivel]="!h.disponivel"
-            (click)="selecionar(h)">
-          {{ h.disponivel ? '✔' : '✖' }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="agenda-container">
+  <div class="agenda-buttons">
+    <button
+      (click)="view = CalendarView.Month"
+      [class.active]="view === CalendarView.Month"
+    >
+      Mês
+    </button>
+    <button
+      (click)="view = CalendarView.Week"
+      [class.active]="view === CalendarView.Week"
+    >
+      Semana
+    </button>
+    <button
+      (click)="view = CalendarView.Day"
+      [class.active]="view === CalendarView.Day"
+    >
+      Dia
+    </button>
+  </div>
+
+  <!-- Calendário -->
+  <div class="calendar-wrapper">
+    <mwl-calendar-month-view
+      *ngIf="view === CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events">
+    </mwl-calendar-month-view>
+
+    <mwl-calendar-week-view
+      *ngIf="view === CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events">
+    </mwl-calendar-week-view>
+
+    <mwl-calendar-day-view
+      *ngIf="view === CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events">
+    </mwl-calendar-day-view>
+  </div>
 </div>

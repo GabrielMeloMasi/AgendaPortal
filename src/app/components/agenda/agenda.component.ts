@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AgendaService } from 'src/app/services/agenda.service';
-import { Horario } from 'src/app/models/agenda.model';
+import { Agendamento } from 'src/app/models/agendamento.model';
+import {
+  CalendarEvent,
+  CalendarView,
+} from 'angular-calendar';
 
 @Component({
   selector: 'app-agenda',
@@ -8,21 +12,33 @@ import { Horario } from 'src/app/models/agenda.model';
   styleUrls: ['./agenda.component.css']
 })
 export class AgendaComponent implements OnInit {
-  diasSemana: string[] = [];
-  horarios: string[] = [];
-  agenda: Horario[][] = []; // [horas][dias]
-
+   CalendarView = CalendarView;
+  view: CalendarView = CalendarView.Month;
+  viewDate: Date = new Date();
+  events: CalendarEvent[] = [];
+  userId?: string;
   constructor(private agendaService: AgendaService) {}
 
-  ngOnInit() {
-    this.diasSemana = this.agendaService.diasSemana;
-    this.horarios = this.agendaService.horas;
-    this.agenda = this.agendaService.getAgendaSemana();
-  }
+  ngOnInit(): void {
 
-  selecionar(h: Horario) {
-    if (h.disponivel) {
-      alert(`Selecionado: ${h.dia} às ${h.hora}`);
-    }
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}')
+
+    this.agendaService.getAgendamentos(userData.userId).subscribe((data: Agendamento[]) => {
+      this.events = data.map(agendamento => ({
+        title: agendamento.tituloAgendamento,
+        start: new Date(agendamento.dataHoraInicio),
+        end: new Date(agendamento.dataHoraFim),
+        color: {
+          primary: '#4F46E5',
+          secondary: '#E0E7FF'
+        },
+        meta: {
+          observacoes: agendamento.observacoes,
+          clienteId: agendamento.clienteUserId,
+          profissionalId: agendamento.profissionalUserId
+        },
+        allDay: false
+      }));
+    });
   }
 }
